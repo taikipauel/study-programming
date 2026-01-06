@@ -1,0 +1,78 @@
+{
+  "name": "study-programming-extension",
+  "displayName": "Study Programming",
+  "description": "VS Code helper extension for study-programming workspace.",
+  "publisher": "study-programming",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Study Programming",
+      "properties": {
+        "studyProgramming.provider": {
+          "type": "string",
+          "enum": [
+            "openai",
+            "anthropic",
+            "custom"
+          ],
+          "default": "openai",
+          "markdownDescription": "Which provider to use for completions. Options include `openai`, `anthropic`, or a `custom` provider defined in config/providers.json.",
+          "scope": "application",
+          "order": 1
+        },
+        "studyProgramming.model": {
+          "type": "string",
+          "enum": [
+            "gpt-4o-mini",
+            "claude-3-haiku",
+            "custom-model"
+          ],
+          "default": "gpt-4o-mini",
+          "markdownDescription": "Default model identifier for the selected provider. Align this with entries in config/providers.json.",
+          "scope": "application",
+          "order": 2
+        },
+        "studyProgramming.tokenLimit": {
+          "type": "number",
+          "default": 4096,
+          "markdownDescription": "Maximum tokens to request per completion.",
+          "minimum": 1,
+          "scope": "application",
+          "order": 3
+        },
+        "studyProgramming.costCapUSD": {
+          "type": "number",
+          "default": 20,
+          "markdownDescription": "Optional soft cost cap in USD for the current workspace.",
+          "minimum": 0,
+          "scope": "application",
+          "order": 4
+        },
+        "studyProgramming.streaming": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Toggle streaming responses on or off for chat completions.",
+          "scope": "application",
+          "order": 5
+        },
+        "studyProgramming.telemetry": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Opt in to anonymized telemetry to help improve the extension.",
+          "scope": "application",
+          "order": 6
+        }
+      }
+    }
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
