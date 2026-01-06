@@ -1,0 +1,27 @@
+{
+  "$schema": "./providers.schema.json",
+  "providers": [
+    {
+      "id": "openai",
+      "displayName": "OpenAI",
+      "models": [
+        {
+          "id": "gpt-4o-mini",
+          "maxTokens": 16000,
+          "costPer1kTokensUSD": 0.015
+        }
+      ]
+    },
+    {
+      "id": "anthropic",
+      "displayName": "Anthropic",
+      "models": [
+        {
+          "id": "claude-3-haiku",
+          "maxTokens": 8000,
+          "costPer1kTokensUSD": 0.005
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "telemetry": {
+    "enabled": false,
+    "anonymizeUserData": true,
+    "dataRetentionDays": 30
+  }
+}

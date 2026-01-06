@@ -1,0 +1,10 @@
+{
+  "defaults": {
+    "timeoutMs": 30000,
+    "maxRetries": 2
+  },
+  "rateLimiting": {
+    "requestsPerMinute": 60,
+    "burst": 10
+  }
+}
