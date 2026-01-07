@@ -10,9 +10,52 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:studyProgramming.rewrite",
+    "onCommand:studyProgramming.clarify",
+    "onCommand:studyProgramming.summarize",
+    "onCommand:studyProgramming.explain",
+    "onCommand:studyProgramming.termsHarmonize",
+    "onCommand:studyProgramming.citationSafeRewrite",
+    "onCommand:studyProgramming.pickModel",
+    "onView:studyProgramming.history"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "studyProgramming.rewrite",
+        "title": "Study Programming: Rewrite Selection"
+      },
+      {
+        "command": "studyProgramming.clarify",
+        "title": "Study Programming: Clarify Selection"
+      },
+      {
+        "command": "studyProgramming.summarize",
+        "title": "Study Programming: Summarize Selection"
+      },
+      {
+        "command": "studyProgramming.explain",
+        "title": "Study Programming: Explain Selection"
+      },
+      {
+        "command": "studyProgramming.termsHarmonize",
+        "title": "Study Programming: Harmonize Terms"
+      },
+      {
+        "command": "studyProgramming.citationSafeRewrite",
+        "title": "Study Programming: Citation-safe Rewrite"
+      },
+      {
+        "command": "studyProgramming.pickModel",
+        "title": "Study Programming: Pick Model"
+      },
+      {
+        "command": "studyProgramming.history.clear",
+        "title": "Study Programming: Clear History"
+      }
+    ],
     "configuration": {
       "title": "Study Programming",
       "properties": {
@@ -71,6 +114,14 @@
           "order": 6
         }
       }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "studyProgramming.history",
+          "name": "Study Programming History"
+        }
+      ]
     }
   },
   "scripts": {
@@ -79,6 +130,8 @@
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^22.9.1",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^2.4.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.3"
