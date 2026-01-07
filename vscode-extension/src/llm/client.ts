@@ -1,3 +1,5 @@
+import { scrubPii } from '../guardrails/scrubber';
+
 export type ProviderType = 'openai' | 'azure' | 'local';
 
 export interface RetryConfig {
@@ -7,15 +9,22 @@ export interface RetryConfig {
   retryableStatusCodes?: number[];
 }
 
+export interface LogPolicy {
+  includeResponseBody?: boolean;
+  redactPii?: boolean;
+}
+
 export interface ProviderConfig {
   type: ProviderType;
   baseUrl?: string;
   apiKey?: string;
   plusToken?: string;
+  tokenProvider?: () => Promise<string | undefined>;
   azureDeployment?: string;
   azureApiVersion?: string;
   timeoutMs?: number;
   retry?: RetryConfig;
+  logPolicy?: LogPolicy;
 }
 
 export interface ClientRequestOptions {
@@ -49,12 +58,56 @@ function buildBackoffDelay(attempt: number, config: Required<RetryConfig>): numb
   return Math.min(config.maxDelayMs, jitterDelay(exponential));
 }
 
-function buildHeaders(config: ProviderConfig, extra?: Record<string, string>): Record<string, string> {
+async function resolveToken(config: ProviderConfig): Promise<string | undefined> {
+  if (config.apiKey) {
+    return config.apiKey;
+  }
+
+  if (config.plusToken) {
+    return config.plusToken;
+  }
+
+  return config.tokenProvider ? config.tokenProvider() : undefined;
+}
+
+function redactTokens(text: string, tokens: string[]): string {
+  return tokens.reduce((accumulator, token) => {
+    if (!token) {
+      return accumulator;
+    }
+    return accumulator.split(token).join('[REDACTED_TOKEN]');
+  }, text);
+}
+
+function buildErrorMessage(
+  config: ProviderConfig,
+  status: number,
+  statusText: string,
+  responseBody?: string
+): string {
+  const includeBody = config.logPolicy?.includeResponseBody ?? false;
+  const redactPii = config.logPolicy?.redactPii ?? true;
+  const base = `LLM request failed (${status}): ${statusText || 'unknown error'}`;
+
+  if (!includeBody || !responseBody) {
+    return base;
+  }
+
+  const tokens = [config.apiKey, config.plusToken].filter(Boolean) as string[];
+  const scrubbed = redactPii ? scrubPii(responseBody).text : responseBody;
+  const sanitized = redactTokens(scrubbed, tokens);
+  return `${base} :: ${sanitized}`;
+}
+
+async function buildHeaders(
+  config: ProviderConfig,
+  extra?: Record<string, string>
+): Promise<Record<string, string>> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json'
   };
 
-  const token = config.apiKey ?? config.plusToken;
+  const token = await resolveToken(config);
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -116,7 +169,7 @@ async function requestWithRetry<T>(
 
       const response = await fetch(buildUrl(config, path), {
         method: options.method ?? 'POST',
-        headers: buildHeaders(config, options.headers),
+        headers: await buildHeaders(config, options.headers),
         body: options.body ? JSON.stringify(options.body) : undefined,
         signal: controller.signal
       });
@@ -124,9 +177,8 @@ async function requestWithRetry<T>(
       clearTimeout(timeoutHandle);
 
       if (!response.ok) {
-        const errorText = await response.text();
         const error = new Error(
-          `LLM request failed (${response.status}): ${errorText || response.statusText}`
+          buildErrorMessage(config, response.status, response.statusText, await response.text())
         );
 
         if (

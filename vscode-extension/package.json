@@ -112,6 +112,34 @@
           "markdownDescription": "Opt in to anonymized telemetry to help improve the extension.",
           "scope": "application",
           "order": 6
+        },
+        "studyProgramming.loggingLevel": {
+          "type": "string",
+          "enum": [
+            "off",
+            "error",
+            "warn",
+            "info",
+            "debug"
+          ],
+          "default": "error",
+          "markdownDescription": "Controls the verbosity of extension logging. Defaults to error-only to avoid emitting sensitive data.",
+          "scope": "application",
+          "order": 7
+        },
+        "studyProgramming.logIncludeResponseBody": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Include response bodies in logs (may contain sensitive data). Keep off unless explicitly needed.",
+          "scope": "application",
+          "order": 8
+        },
+        "studyProgramming.logRedactPii": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Redact emails and IDs from logged content.",
+          "scope": "application",
+          "order": 9
         }
       }
     },
