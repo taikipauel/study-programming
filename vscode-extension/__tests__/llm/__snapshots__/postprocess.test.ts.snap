@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`postprocessResponse preserves citations, math, and code fences while cleaning markdown 1`] = `
+Intro with citation 【doc-1】.
+
+\`\`\`ts
+const value = 1;
+\`\`\`
+
+$$
+E = mc^2
+$$
+
+Inline math $a + b$ stays.
+
+
+Trailing spaces here.
+`;
