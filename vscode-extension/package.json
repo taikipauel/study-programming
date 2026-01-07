@@ -83,5 +83,9 @@
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ws": "^8.18.3",
+    "yup": "^1.6.1",
+    "zod": "^3.25.76"
+  }
 }
