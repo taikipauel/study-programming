@@ -6,5 +6,9 @@
   "rateLimiting": {
     "requestsPerMinute": 60,
     "burst": 10
+  },
+  "reuseThresholds": {
+    "cacheHitRate": 0.3,
+    "summaryReuseRate": 0.25
   }
 }
