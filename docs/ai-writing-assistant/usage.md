@@ -40,7 +40,34 @@
 - `studyProgramming.logIncludeResponseBody`: ログにレスポンス本文を含めるか
 - `studyProgramming.logRedactPii`: ログ内の個人情報をマスクするか
 
+例: `settings.json` に最低限の設定を追記する場合
+
+```json
+{
+  "studyProgramming.provider": "openai",
+  "studyProgramming.model": "gpt-4o-mini",
+  "studyProgramming.tokenLimit": 1200,
+  "studyProgramming.costCapUSD": 1.0,
+  "studyProgramming.streaming": true
+}
+```
+
 プロバイダーとモデルの対応は `config/providers.json` を参考にしてください。独自モデルを使う場合は `custom` を選択し、同ファイルにエントリを追加します。
+
+例: `config/providers.json` に `custom` を追加する場合
+
+```json
+{
+  "id": "custom",
+  "displayName": "Custom Provider",
+  "models": [
+    {
+      "id": "custom-model-1",
+      "label": "Custom Model 1"
+    }
+  ]
+}
+```
 
 ## ワークフロー
 
