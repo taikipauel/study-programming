@@ -1,6 +1,12 @@
 {
+  "logging": {
+    "level": "error",
+    "redactPii": true,
+    "includeResponseBody": false
+  },
   "telemetry": {
     "enabled": false,
+    "optInRequired": true,
     "anonymizeUserData": true,
     "dataRetentionDays": 30
   }
