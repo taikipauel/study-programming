@@ -13,6 +13,7 @@ Study Programming は、VS Code 上で文章の書き換えや要約を支援す
 
 - 利用方法: `docs/ai-writing-assistant/usage.md`
 - 設定例: `config/providers.json`
+- 変更履歴（日本語）: `CHANGELOG.md`
 
 ## VSIX ビルド
 
