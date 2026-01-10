@@ -1,7 +1,7 @@
-# Changelog
+# 変更履歴
 
-## Unreleased
+## 未リリース
 
-- Add usage guide for the Study Programming VS Code extension.
-- Add VSIX packaging script for build/verification workflow.
-- Update README with docs and packaging entry points.
+- Study Programming の VS Code 拡張の利用ガイドを追加。
+- ビルド/検証フロー向けに VSIX パッケージングスクリプトを追加。
+- ドキュメントとパッケージングの導線を README に追記。
